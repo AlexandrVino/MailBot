@@ -1,2 +1,4 @@
-aiogram<3.0
-environs~=8.0.0
+aiogram
+environs
+asyncpg
+validate_email

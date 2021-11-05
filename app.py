@@ -7,11 +7,8 @@ from utils.set_bot_commands import set_default_commands
 
 
 async def on_startup(dispatcher):
-    # Устанавливаем дефолтные команды
-    await set_default_commands(dispatcher)
-
-    # Уведомляет про запуск
-    await on_startup_notify(dispatcher)
+    await set_default_commands(dispatcher)  # set default commands
+    await on_startup_notify(dispatcher)  # notify admins about startup
 
 
 if __name__ == '__main__':

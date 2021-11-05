@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: database
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+      - 5433:5433
+    environment:
+      DB_NAME: $DB_NAME
+      POSTGRES_PASSWORD: $DB_PASS
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  adminer:
+    links:
+      - "db:database"
+    container_name: adminer
+    image: adminer
+    restart: always
+    environment:
+      host: $DB_HOST
+    ports:
+      - 8080:8080
+
+  tgbot:
+    links:
+      - "db:database"
+    container_name: bot
+    build:
+      context: .
+    command: python app.py
+    restart: always
+    env_file:
+      - ".env"
+    depends_on:
+      - db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

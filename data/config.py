@@ -1,10 +1,20 @@
+"""
+This is configuration file
+You should rename env-example.env to .env and put in it your data
+"""
+
 from environs import Env
 
-# Теперь используем вместо библиотеки python-dotenv библиотеку environs
 env = Env()
 env.read_env()
 
-BOT_TOKEN = env.str("BOT_TOKEN")  # Забираем значение типа str
-ADMINS = env.list("ADMINS")  # Тут у нас будет список из админов
-IP = env.str("ip")  # Тоже str, но для айпи адреса хоста
+BOT_TOKEN = env.str("BOT_TOKEN")  # Taking Bot token
+ADMINS = env.list("ADMINS")  # Taking Bot token
 
+DB_USER = env.str("DB_USER")  # Taking database username
+DB_PASS = env.str("DB_PASS")  # Taking database password
+DB_NAME = env.str("DB_NAME")  # Taking database name
+DB_HOST = env.str("DB_HOST")  # Taking database host
+DB_PORT = env.int("DB_PORT")  # Taking database port
+I18N_DOMAIN = ''  #
+LOCALES_DIR = ''  #

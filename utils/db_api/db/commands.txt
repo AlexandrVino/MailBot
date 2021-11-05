@@ -1,0 +1,3 @@
+ADD_NEW_USER==INSERT INTO public.users(chat_id, language_code, mails) VALUES ($1, $2, $3) RETURNING id;
+SELECT_USER==SELECT * FROM public.users WHERE chat_id = $1;
+UPDATE_USER_MAILS==UPDATE public.users SET mails = $1 WHERE chat_id = $2;
