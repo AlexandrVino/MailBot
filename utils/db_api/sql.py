@@ -1,15 +1,10 @@
 import asyncio
 import json
-import logging
 from dataclasses import dataclass
 
 import asyncpg
 
-# set logging format
-logging.basicConfig(format=u'%(filename)s [LINE:%(lineno)d] #%(levelname)-8s [%(asctime)s]  %(message)s',
-                    level=logging.INFO,
-                    # level=logging.DEBUG
-                    )
+from utils.misc.my_logging import logging
 
 
 # class, which will keep data for connection with your database
@@ -89,6 +84,18 @@ class DBSession(DBData):
             await self.add_user(**kwargs)
             user = await self.get_user(kwargs['chat_id'])
         return user
+
+    async def get_users(self):
+        return await self.pool.fetch(self.COMMANDS['GET_USERS'])
+
+    async def update_user_last_search(self, **kwargs) -> asyncpg.Record:
+        """
+        :param kwargs: dict with user data (id, user_pc)
+        :returns asyncpg.Record:
+        function, which will be updating user pc
+        """
+        return await self.pool.execute(self.COMMANDS['UPDATE_USER_LAST_SEARCH'],
+                                       kwargs['last_search'], kwargs['chat_id'])
 
     async def update_user_mails(self, **kwargs) -> asyncpg.Record:
         """

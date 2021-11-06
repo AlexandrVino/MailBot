@@ -6,6 +6,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data import config
 from utils.db_api.sql import create_pool, DBSession
 
+
 loop = asyncio.get_event_loop()
 
 bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -21,3 +22,8 @@ db: DBSession = dp.loop.run_until_complete(
         database=config.DB_NAME,
         port=config.DB_PORT,
         path='utils/db_api/'))
+
+
+from utils.misc.check_updates import check_updates
+
+dp.loop.create_task(check_updates())
