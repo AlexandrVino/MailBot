@@ -16,7 +16,7 @@ async def choose_computer(message: types.Message):
     :returns: None
     """
 
-    data = await db.get_user_mails(chat_id=message.from_user.id)
+    data = await db.get_user_mails(**await get_dict(**message.from_user.values))
     data = json.loads(data)
     if any(data):
         await message.answer(f"Choose any of mails:",

@@ -6,6 +6,7 @@ async def set_default_commands(dp):
         [
             types.BotCommand("start", "Launch bot"),
             types.BotCommand("help", "Display skills"),
+            types.BotCommand("cancel", "Cancel any action"),
             types.BotCommand("add_mail", "Get info about your account"),
             types.BotCommand("delete_mail", "Reset you server address")
         ]

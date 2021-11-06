@@ -15,8 +15,8 @@ dp = Dispatcher(bot, storage=storage, loop=loop)
 
 db: DBSession = dp.loop.run_until_complete(
     create_pool(
-        # host='database',  # database container name
-        host=config.DB_HOST,  # database host, when you launch bot on you localhost
+        host='mail_database',  # database container name
+        # host=config.DB_HOST,  # database host, when you launch bot on you localhost
         user=config.DB_USER,
         password=config.DB_PASS,
         database=config.DB_NAME,

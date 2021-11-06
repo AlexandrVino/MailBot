@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    container_name: database
+    container_name: mail_database
     image: postgres
     restart: always
     ports:
@@ -16,8 +16,8 @@ services:
 
   adminer:
     links:
-      - "db:database"
-    container_name: adminer
+      - "db:mail_database"
+    container_name: mail_adminer
     image: adminer
     restart: always
     environment:
@@ -27,8 +27,8 @@ services:
 
   tgbot:
     links:
-      - "db:database"
-    container_name: bot
+      - "db:mail_database"
+    container_name: mail_bot
     build:
       context: .
     command: python app.py
@@ -38,7 +38,8 @@ services:
     depends_on:
       - db
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - static-files:/var/lib/data/static
 
 volumes:
   db-data:
+  static-files:

@@ -1,4 +1,5 @@
 import json
+import logging
 from re import findall
 
 from aiogram import types
@@ -56,10 +57,13 @@ async def process_name(message: types.Message, state: FSMContext) -> types.Messa
     function, which will ask computer mac address
     """
     send_to = message.text.replace(' ', "").replace(';', ",").split(',')
-    if not all([chat_id.isdigit() for chat_id in send_to]):
-        return await message.answer("Incorrect ides (Example: 568940763, 1025634)")
+
+    try:
+        chats = [int(chat_id) for chat_id in send_to]
+    except ValueError:
+        return await message.answer("Incorrect ides (Example: 568940763, -1025634)")
     async with state.proxy() as mails_data:
-        mails_data['send_to'] = [int(chat_id) for chat_id in send_to]
+        mails_data['send_to'] = chats
 
     await AddMailForm.password.set()
     return await message.answer("Please write password")

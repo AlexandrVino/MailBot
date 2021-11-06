@@ -18,7 +18,7 @@ async def get_inbox(username: str, password: str, host='imap.gmail.com', path=''
         # take message and get info about it
         email_message = message_from_bytes(mail.fetch(num, '(RFC822)')[1][0][1])
         try:
-            for part in email_message.walk():
+            for i, part in enumerate(email_message.walk()):
                 if part.get_content_type() == "text/plain":
                     body = part.get_payload(decode=True)
                     email_data['body'] = body.decode()
@@ -29,15 +29,15 @@ async def get_inbox(username: str, password: str, host='imap.gmail.com', path=''
 
                     if email_data.get('files') is None:
                         email_data['files'] = []
-                    email_data['files'] += [path + filename_decode.decode()]
+                    email_data['files'] += [path + f'{i}_' + filename_decode.decode()]
 
-                    with open(path + filename_decode.decode(), 'wb') as new_file:
+                    with open(path + f'{i}_' + filename_decode.decode(), 'wb') as new_file:
                         new_file.write(part.get_payload(decode=True))
 
             my_message.append(email_data)
         except UnicodeDecodeError:
             continue
-    return my_message
+    return [await reformat_mail(message) for message in my_message]
 
 
 async def reformat_mail(message: dict) -> dict:

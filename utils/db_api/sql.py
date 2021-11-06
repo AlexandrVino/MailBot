@@ -35,7 +35,7 @@ class DBSession(DBData):
         try:
             # trying connect to database
             self.pool = await asyncpg.create_pool(**await self.to_dict())
-        except asyncpg.exceptions.ConnectionDoesNotExistError as err:
+        except (asyncpg.exceptions.ConnectionDoesNotExistError, asyncpg.exceptions.InvalidCatalogNameError) as err:
             # this error will be thrown if the database isn't created
             await create_db(self)  # create database
             logging.error(err)
@@ -80,6 +80,7 @@ class DBSession(DBData):
 
     async def get_user_or_create(self, **kwargs):
         user = await self.get_user(kwargs['chat_id'])
+        logging.info(kwargs)
         if user is None:
             await self.add_user(**kwargs)
             user = await self.get_user(kwargs['chat_id'])
