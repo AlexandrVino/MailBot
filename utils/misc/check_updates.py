@@ -48,7 +48,6 @@ async def check_updates() -> None:
                     for chat_id in mail['send_to']:
                         try:
                             # send mail message
-                            logging.info(chat_id)
                             await dp.bot.send_message(chat_id, message['body'])
 
                             # if mail have some files

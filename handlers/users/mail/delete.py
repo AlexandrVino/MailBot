@@ -35,8 +35,8 @@ async def on_pc_callback(call: types.CallbackQuery, callback_data: dict):
     """
 
     await call.answer(cache_time=60)
-    _, address, send_to, password = callback_data.values()
-
+    _, address, _ = callback_data.values()
+    # send_to = [int(chat_id) for chat_id in send_to]
     kwargs = await get_dict(**call.from_user.values)
     mails = [pc for pc in json.loads(await db.get_user_mails(**kwargs)) if pc['address'] != address]
     kwargs['mails'] = json.dumps(mails)

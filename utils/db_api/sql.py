@@ -80,7 +80,6 @@ class DBSession(DBData):
 
     async def get_user_or_create(self, **kwargs):
         user = await self.get_user(kwargs['chat_id'])
-        logging.info(kwargs)
         if user is None:
             await self.add_user(**kwargs)
             user = await self.get_user(kwargs['chat_id'])

@@ -42,7 +42,12 @@ async def get_inbox(username: str, password: str, host='imap.gmail.com', path=''
 
 async def reformat_mail(message: dict) -> dict:
     symbols = ['\n', '\r', '\t', '\xa0', '\u200e']
-    return {
-        ''.join([symbol for symbol in str(key) if symbol not in symbols]):
-            ''.join([symbol for symbol in str(value) if symbol not in symbols]) for key, value in message.items()
-    } | {'files': message['files']}
+    parse_message = {}
+    for key, value in message.items():
+        for symbol in symbols:
+            while symbol * 2 in key:
+                key = key.replace(symbol * 2, symbol)
+            while symbol * 2 in value:
+                value = key.replace(symbol * 2, symbol)
+        parse_message[key] = value
+    return parse_message
